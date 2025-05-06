@@ -1,0 +1,13 @@
+[package]
+name = "Rust_MCS_Cpp"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "Rust_MCS_Cpp"
+path = "src/Rust_MCS_Cpp.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+Rust_MCS = {git = "https://github.com/SergeiGL/Rust_MCS"}
+nalgebra = "*"
