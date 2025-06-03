@@ -5,7 +5,7 @@ version = 4
 [[package]]
 name = "Rust_MCS"
 version = "0.1.0"
-source = "git+https://github.com/SergeiGL/Rust_MCS#9588535ecf825f1c119199cf377df914c5339e74"
+source = "git+https://github.com/SergeiGL/Rust_MCS#2c87e826c7b697a6475822478acfb4ec3aac6277"
 dependencies = [
  "nalgebra",
 ]
@@ -41,9 +41,9 @@ checksum = "9134a6ef01ce4b366b50689c94f82c14bc72bc5d0386829828a2e2752ef7958c"
 
 [[package]]
 name = "matrixmultiply"
-version = "0.3.9"
+version = "0.3.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9380b911e3e96d10c1f415da0876389aaf1b56759054eeb0de7df940c456ba1a"
+checksum = "a06de3016e9fae57a36fd14dba131fccf49f74b40b7fbdb472f96e361ec71a08"
 dependencies = [
  "autocfg",
  "rawpointer",

@@ -7,7 +7,7 @@
 extern "C" double simple_func_c(const double* x, size_t n) {
     // build a std::vector<double> view over the C array
     std::vector<double> vx(x, x + n);
-    return 1.0;
+    return -123456.0;
 }
 
 int main() {

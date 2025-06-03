@@ -58,26 +58,36 @@ pub unsafe extern "C" fn mcs_c(
     unsafe {
         CALLBACK = Some(c_func);
     }
-
-
+    
     // Call the appropriate helper based on dimensions
-    match (smax, n) { 
-        (20, 6) => { mcs_c_helper::<20, 6>(u_ptr, v_ptr, nsweeps, nf, local, gamma, hess_ptr) }
-        (21, 6) => { mcs_c_helper::<21, 6>(u_ptr, v_ptr, nsweeps, nf, local, gamma, hess_ptr) }
-        (22, 6) => { mcs_c_helper::<22, 6>(u_ptr, v_ptr, nsweeps, nf, local, gamma, hess_ptr) }
-        (20, 8) => { mcs_c_helper::<20, 8>(u_ptr, v_ptr, nsweeps, nf, local, gamma, hess_ptr) }
-        (25, 8) => { mcs_c_helper::<25, 8>(u_ptr, v_ptr, nsweeps, nf, local, gamma, hess_ptr) }
-        _ => panic!("Unsupported SMAX and N combination: ({}, {})", smax, n)
+    match n {
+        1 => mcs_c_helper::<1>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        2 => mcs_c_helper::<2>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        3 => mcs_c_helper::<3>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        4 => mcs_c_helper::<4>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        5 => mcs_c_helper::<5>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        6 => mcs_c_helper::<6>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        7 => mcs_c_helper::<7>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        8 => mcs_c_helper::<8>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        9 => mcs_c_helper::<9>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        10 => mcs_c_helper::<10>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        11 => mcs_c_helper::<11>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        12 => mcs_c_helper::<12>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        13 => mcs_c_helper::<13>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        14 => mcs_c_helper::<14>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        15 => mcs_c_helper::<15>(u_ptr, v_ptr, nsweeps, nf, local, gamma, smax, hess_ptr),
+        _ => panic!("N should be [1, 15]; got: N={}", n)
     } 
 } 
 
-unsafe fn mcs_c_helper<const SMAX: usize, const N: usize>(
+unsafe fn mcs_c_helper<const N: usize>(
     u_ptr: *const f64,
     v_ptr: *const f64,
     nsweeps: usize,
     nf: usize,
     local: usize,
     gamma: f64,
+    smax: usize,
     hess_ptr: *const f64
 ) -> McsResult_C 
 {
@@ -90,7 +100,7 @@ unsafe fn mcs_c_helper<const SMAX: usize, const N: usize>(
 
     // Call the original mcs function with our trampoline
     let (xbest, fbest, xmin, fmi, ncall, ncloc, flag) = 
-        mcs::<SMAX, N>(
+        mcs::<N>(
             obj_func_trampoline::<N>,
             &u,
             &v,
@@ -98,6 +108,7 @@ unsafe fn mcs_c_helper<const SMAX: usize, const N: usize>(
             nf,
             local,
             gamma,
+            smax,
             &hess
         ).unwrap();
  
@@ -135,11 +146,22 @@ unsafe fn mcs_c_helper<const SMAX: usize, const N: usize>(
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn free_mcs_result(result: *mut McsResult_C, n: usize) { 
     match n { 
-        6 => free_mcs_result_helper::<6>(result), 
+        1 => free_mcs_result_helper::<1>(result),
+        2 => free_mcs_result_helper::<2>(result),
+        3 => free_mcs_result_helper::<3>(result),
+        4 => free_mcs_result_helper::<4>(result),
+        5 => free_mcs_result_helper::<5>(result),
+        6 => free_mcs_result_helper::<6>(result),
+        7 => free_mcs_result_helper::<7>(result),
         8 => free_mcs_result_helper::<8>(result),
+        9 => free_mcs_result_helper::<9>(result),
         10 => free_mcs_result_helper::<10>(result),
-        // Add more dimensions as needed
-        _ => panic!("Unsupported dimension: {}", n)
+        11 => free_mcs_result_helper::<11>(result),
+        12 => free_mcs_result_helper::<12>(result),
+        13 => free_mcs_result_helper::<13>(result),
+        14 => free_mcs_result_helper::<14>(result),
+        15 => free_mcs_result_helper::<15>(result),
+        _ => panic!("N should be [1, 15]; got: N={}", n)
     } 
 } 
 
